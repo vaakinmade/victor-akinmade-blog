@@ -21,6 +21,7 @@ class PostCreateView(PageTitleMixin, CreateView):
 class SearchListView(ListView):
 	template_name = "search.html"
 	context_object_name = "search_items"
+	paginate_by = 1
 
 	def get_queryset(self):
 		query = SearchQuery(self.request.GET.get('q'))
@@ -41,6 +42,7 @@ class TagListView(PageTitleMixin, ListView):
 	template_name = 'blog/tag_list.html'
 	context_object_name = "tag_posts"
 	page_title = ""
+	paginate_by = 5
 
 	def get_context_data(self, **kwargs):
 		context = super(TagListView, self).get_context_data(**kwargs)
