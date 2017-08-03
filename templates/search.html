@@ -10,7 +10,7 @@
 
 <!-- Content
 ================================================== -->
-<div class="container margin-top-50" style="margin-bottom: 360px;">
+<div class="container margin-top-50" style="min-height: 476px;">
 
 	<!-- Blog Posts -->
 	<div class="blog-page">
@@ -26,15 +26,73 @@
 							</div>
 						</div>
 						<div class="clearfix"></div>
-					</div>
+						</div>
 				    </form>
-				    
-					<div class="clearfix"></div>
 				</div>
 				<div class="clearfix"></div>
 
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+				{% if search and search_items %}
+					<p>{{search_items.count}} posts containing <i>{{search}}</i></p><br/>
+				{% endif %}
+				<!-- Blog Post -->
+				{% for post in search_items %}	
+				<div class="blog-post" style="border:#d0d0d0 solid 0.5px">
+					<div class="post-content" style="padding-bottom: 2px;">
+						<h3><a href="{% url 'blog:detail' slug=post.slug slug_title=post.slug_title %}">{{ post.title}}</a></h3>
+						<ul class="post-meta margin-top-20 margin-bottom-10">
+							<li><i class="fa fa-calendar-check-o"></i> {{ post.created_at.date }}</li>
+							<li><i class="sl sl-icon-user"></i> {{ post.author.first_name }}</li>
+							<li><i class="sl sl-icon-clock"></i> {{ post.read_minutes }} minutes read</li>
+							<li><i class="sl sl-icon-eye"></i> {{ post.views|intcomma }} views</li>
+							<li><i class="sl sl-icon-heart"></i> {{ post.likes }}</li>
+						</ul>
+					</div>
+					
+					<!-- Content -->
+					<div class="post-content"  style="margin-top:-50px;">
+						{{post.content|truncatechars:180|markdown_to_html}}
+						<a href="{% url 'blog:detail' slug=post.slug slug_title=post.slug_title %}" class="read-more">Read More <i class="fa fa-angle-right"></i></a>
+					</div>
+				</div>
+				{% endfor %}
+				<!-- Blog Post / End -->
+
+				<!-- Pagination -->
+				<div class="col-md-5 col-md-offset-4">
+				{% if is_paginated %}
+					<ul class="pagination">
+						{% if page_obj.has_previous %}
+							<li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+						{% else %}
+							<li class="disabled"><span>&laquo;</span></li>
+						{% endif %}
+
+						{% for i in paginator.page_range %}
+							{% if page_obj.number == i %}
+								<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+							{% else %}
+								<li><a href="?page={{ i }}">{{ i }}</a></li>
+							{% endif %}
+						{% endfor %}
+
+						{% if page_obj.has_next %}
+							<li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+						{% else %}
+							<li class="disabled"><span>&raquo;</span></li>
+						{% endif %}
+					</ul>
+				{% endif %}
+				</div>
+				
+				<!-- Blog Posts / End -->
+			</div>
+		</div>
+
 	</div>
 	<!-- Blog Posts / End -->
 </div>

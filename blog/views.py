@@ -4,6 +4,7 @@ from .mixins import PageTitleMixin, ImageOperations
 from django.http import HttpResponseRedirect
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 
 class PostCreateView(PageTitleMixin, CreateView):
@@ -17,32 +18,23 @@ class PostCreateView(PageTitleMixin, CreateView):
 		return super(PostCreateView, self).form_valid(form)
 
 
-class SearchListView(PageTitleMixin, ListView):
-	template_name = "blog/search_list.html"
-	context_object_name = "search_items"
-
-	def get_queryset(self):
-		query = self.request.GET.get('q')
-		print("Search query", query)
-		print(models.Post.objects.filter(tags__icontains=self.kwargs['search']))
-		return models.Post.objects.filter(content__icontains=self.kwargs['search'])
-
-	def get_context_data(self, **kwargs):
-		context = super(SearchListView, self).get_context_data(**kwargs)
-		context["search"] = self.kwargs['search']
-		return context
-
-
-class SearchView(ListView):
+class SearchListView(ListView):
 	template_name = "search.html"
 	context_object_name = "search_items"
 
 	def get_queryset(self):
-		query = self.request.GET.get('q')
+		query = SearchQuery(self.request.GET.get('q'))
+		vector = SearchVector('title', 'content')
+		rank_parameters = SearchRank(vector, query)
 		if query:
-			print("Search query", query)
-			print(models.Post.objects.filter(content__icontains=query))
-			return models.Post.objects.filter(content__icontains=query)
+			result = models.Post.objects.annotate(search=vector, rank=rank_parameters
+				).filter(search=query).order_by('-rank')
+			return result
+
+	def get_context_data(self, **kwargs):
+		context = super(SearchListView, self).get_context_data(**kwargs)
+		context["search"] = self.request.GET.get('q')
+		return context
 
 
 class TagListView(PageTitleMixin, ListView):
