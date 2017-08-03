@@ -1,0 +1,20 @@
+# Ignore env file
+.env
+
+# Ignore uploaded image files
+/media/*
+/assets/*
+
+
+# Ignore swap files and pycs
+*.swo
+*.pyc
+*~
+
+# Ignore bundler config
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+

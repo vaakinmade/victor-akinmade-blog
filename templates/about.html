@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+{% load humanize %}
+{% load bootstrap3 %}
+{% load custom_filters %}
+
+{% block title %} Python, Django &amp; the in-betweens {% endblock %}
+
+{% block content %}
+
+<!-- Content
+================================================== -->
+<div class="container margin-top-50">
+
+	<!-- Blog Posts -->
+	<div class="blog-page">
+	<div class="row">
+		<div class="col-md-8">
+
+			<h2>About</h2>
+			<p>Hi there! My name is Victor, I'm a software engineer and I relish all things technology (software for the most part). I currently live in Lagos, Nigeria - a beautiful city with lots to do and enough traffic to slow down lightening.</p>
+
+			<p>I remember it was all fun when I started out in PHP, until I decided to make a career of it all. So I switched to Java, but I eventually realised commercial programming has a way of stifling out the fun in development. Coupled with Java's rigidity, they're a match made in heaven.</p>
+
+			<p>In the hopes of finding flexibility and attaining true freedom, I sought after Ruby. For somebody from a Java background, Ruby felt like this. 
+
+			I mean what could be wrong with having several ways of doing stuff? Rails.
+			
+
+			I was inspired to seek more agile ways of juggling everything; fun with work, time with money, and coffee with doughnuts.</p>
+
+			<p>Time-skip to Python, everything's an object just like Ruby but without the levels of freedom and with the addition of a few rules. Why? Well because rules are necessary to protect freedom. Without rules, it is a battle of who's freedom is superior to the other. There should be a method to our madness, do as much you like within your limitations.<p>
+
+			<p>I created this blog to convey my thoughts via software development and hopefully connect with other humans. I am not a Python/Django sage, but don't we all have something beneficial to share.</p>
+
+			<div class="clearfix"></div>
+
+		</div>
+
+	<!-- Blog Posts / End -->
+
+
+	<!-- Widgets -->
+	<div class="col-md-4">
+		<div class="sidebar right">
+
+			<!-- Widget -->
+			<div class="widget">
+				<h3 class="margin-top-0 margin-bottom-25">Search Blog</h3>
+				<div class="search-blog-input">
+					<div class="input"><input class="search-field" type="text" placeholder="Type and hit enter" value=""/></div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Widget / End -->
+
+
+			<!-- Widget -->
+			<div class="widget">
+				<h3>Got any questions?</h3>
+				<div class="info-box margin-bottom-10">
+					<p>If you are having any questions, please feel free to ask.</p>
+					<a href="contact.html" class="button fullwidth margin-top-20"><i class="fa fa-envelope-o"></i> Drop Me a Line</a>
+				</div>
+			</div>
+			<!-- Widget / End -->
+
+
+			<!-- Widget -->
+			<div class="widget">
+
+				<h3>Popular Posts</h3>
+				<ul class="widget-tabs">
+
+					<!-- Post #1 -->
+					<li>
+						<div class="widget-content">
+								<div class="widget-thumb">
+								<a href="blog-full-width-single-post.html"><img src="images/blog-widget-03.jpg" alt=""></a>
+							</div>
+							
+							<div class="widget-text">
+								<h5><a href="blog-full-width-single-post.html">What to Do a Year Before Buying Apartment </a></h5>
+								<span>October 26, 2016</span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</li>
+					
+					<!-- Post #2 -->
+					<li>
+						<div class="widget-content">
+							<div class="widget-thumb">
+								<a href="blog-full-width-single-post.html"><img src="images/blog-widget-02.jpg" alt=""></a>
+							</div>
+							
+							<div class="widget-text">
+								<h5><a href="blog-full-width-single-post.html">Bedroom Colors You'll Never Regret</a></h5>
+								<span>November 9, 2016</span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</li>
+					
+					<!-- Post #3 -->
+					<li>
+						<div class="widget-content">
+							<div class="widget-thumb">
+								<a href="blog-full-width-single-post.html"><img src="images/blog-widget-01.jpg" alt=""></a>
+							</div>
+							
+							<div class="widget-text">
+								<h5><a href="blog-full-width-single-post.html">8 Tips to Help You Finding New Home</a></h5>
+								<span>November 12, 2016</span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</li>
+
+				</ul>
+
+			</div>
+			<!-- Widget / End-->
+
+
+			<!-- Widget -->
+			<div class="widget">
+				<h3 class="margin-top-0 margin-bottom-25">Social</h3>
+				<ul class="social-icons rounded">
+					<li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+					<li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+					<li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+					<li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+				</ul>
+
+			</div>
+			<!-- Widget / End-->
+
+			<div class="clearfix"></div>
+			<div class="margin-bottom-40"></div>
+		</div>
+	</div>
+	</div>
+	<!-- Sidebar / End -->
+
+
+</div>
+</div>
+
+{% endblock %}

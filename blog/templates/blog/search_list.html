@@ -1,0 +1,186 @@
+{% extends "layout.html" %}
+{% load static from staticfiles %}
+{% load humanize %}
+{% load bootstrap3 %}
+{% load custom_filters %}
+
+{% block title %} Python, Django &amp; the in-betweens {% endblock %}
+
+{% block content %}
+
+<!-- Content
+================================================== -->
+<div class="container margin-top-50">
+
+	<!-- Blog Posts -->
+	<div class="blog-page">
+	<div class="row">
+		<div class="col-md-8">
+			<font size="5">{{search|title}} Posts</font>
+			<p>{{search_items.count}} posts containing <i>{{search|title}}</i></p><br/>
+			<!-- Blog Post -->
+			{% for post in search_items %}	
+			<div class="blog-post" style="border:#d0d0d0 solid 1px">
+				<div class="post-content" style="padding-bottom: 2px;">
+					<h3><a href="{% url 'blog:detail' slug=post.slug slug_title=post.slug_title %}">{{ post.title}}</a></h3>
+					<ul class="post-meta margin-top-20 margin-bottom-10">
+						<li><i class="fa fa-calendar-check-o"></i> {{ post.created_at.date }}</li>
+						<li><i class="sl sl-icon-user"></i> {{ post.author.first_name }}</li>
+						<li><i class="sl sl-icon-clock"></i> {{ post.read_minutes }} minutes read</li>
+						<li><i class="sl sl-icon-eye"></i> {{ post.views|intcomma }} views</li>
+						<li><i class="sl sl-icon-heart"></i> {{ post.likes }}</li>
+					</ul>
+				</div>
+				
+				<!-- Content -->
+				<div class="post-content"  style="margin-top:-50px;">
+					{{post.content|truncatechars:180|markdown_to_html}}
+					<a href="{% url 'blog:detail' slug=post.slug slug_title=post.slug_title %}" class="read-more">Read More <i class="fa fa-angle-right"></i></a>
+				</div>
+			</div>
+			{% endfor %}
+			<!-- Blog Post / End -->
+
+			<!-- Pagination -->
+			<div class="clearfix"></div>
+			<div class="col-md-5 col-md-offset-4">
+			{% if is_paginated %}
+				<ul class="pagination">
+					{% if page_obj.has_previous %}
+						<li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+					{% else %}
+						<li class="disabled"><span>&laquo;</span></li>
+					{% endif %}
+
+					{% for i in paginator.page_range %}
+						{% if page_obj.number == i %}
+							<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+						{% else %}
+							<li><a href="?page={{ i }}">{{ i }}</a></li>
+						{% endif %}
+					{% endfor %}
+
+					{% if page_obj.has_next %}
+						<li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+					{% else %}
+						<li class="disabled"><span>&raquo;</span></li>
+					{% endif %}
+				</ul>
+			{% endif %}
+			</div>
+			<div class="clearfix"></div>
+			
+			<!-- Blog Posts / End -->
+		</div>
+
+
+
+	<!-- Widgets -->
+	<div class="col-md-4">
+		<div class="sidebar right">
+
+			<!-- Widget -->
+			<div class="widget">
+				<h3 class="margin-top-0 margin-bottom-25">Search Blog</h3>
+				<div class="search-blog-input">
+					<div class="input"><input class="search-field" type="text" placeholder="Type and hit enter" value=""/></div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<!-- Widget / End -->
+
+
+			<!-- Widget -->
+			<div class="widget">
+				<h3>Got any questions?</h3>
+				<div class="info-box margin-bottom-10">
+					<p>If you are having any questions, please feel free to ask.</p>
+					<a href="contact.html" class="button fullwidth margin-top-20"><i class="fa fa-envelope-o"></i> Drop Me a Line</a>
+				</div>
+			</div>
+			<!-- Widget / End -->
+
+
+			<!-- Widget -->
+			<div class="widget">
+
+				<h3>Popular Posts</h3>
+				<ul class="widget-tabs">
+
+					<!-- Post #1 -->
+					<li>
+						<div class="widget-content">
+								<div class="widget-thumb">
+								<a href="blog-full-width-single-post.html"><img src="images/blog-widget-03.jpg" alt=""></a>
+							</div>
+							
+							<div class="widget-text">
+								<h5><a href="blog-full-width-single-post.html">What to Do a Year Before Buying Apartment </a></h5>
+								<span>October 26, 2016</span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</li>
+					
+					<!-- Post #2 -->
+					<li>
+						<div class="widget-content">
+							<div class="widget-thumb">
+								<a href="blog-full-width-single-post.html"><img src="images/blog-widget-02.jpg" alt=""></a>
+							</div>
+							
+							<div class="widget-text">
+								<h5><a href="blog-full-width-single-post.html">Bedroom Colors You'll Never Regret</a></h5>
+								<span>November 9, 2016</span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</li>
+					
+					<!-- Post #3 -->
+					<li>
+						<div class="widget-content">
+							<div class="widget-thumb">
+								<a href="blog-full-width-single-post.html"><img src="images/blog-widget-01.jpg" alt=""></a>
+							</div>
+							
+							<div class="widget-text">
+								<h5><a href="blog-full-width-single-post.html">8 Tips to Help You Finding New Home</a></h5>
+								<span>November 12, 2016</span>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</li>
+
+				</ul>
+
+			</div>
+			<!-- Widget / End-->
+
+
+			<!-- Widget -->
+			<div class="widget">
+				<h3 class="margin-top-0 margin-bottom-25">Social</h3>
+				<ul class="social-icons rounded">
+					<li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+					<li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+					<li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+					<li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+				</ul>
+
+			</div>
+			<!-- Widget / End-->
+
+			<div class="clearfix"></div>
+			<div class="margin-bottom-40"></div>
+		</div>
+	</div>
+	</div>
+	<!-- Sidebar / End -->
+
+
+</div>
+</div>
+
+
+{% endblock %}
