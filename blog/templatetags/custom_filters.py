@@ -18,5 +18,5 @@ def time_estimate(word_count):
 @register.filter('markdown_to_html')
 def markdown_to_html(markdown_text):
     '''Converts markdown text to HTML'''
-    html_body = markdown2.markdown(markdown_text)
+    html_body = markdown2.markdown(markdown_text, extras=["fenced-code-blocks",])
     return mark_safe(html_body)

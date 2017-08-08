@@ -20,7 +20,7 @@
 						<i class="fa fa-user"></i> {{post.author.first_name}}
 					</h4>
 					<h1>{{post.title}}</h1>
-					<div class="listing-badges">
+					<div class="listing-badges padding-top-10">
 						{% for tag in tag_list %}
 							<span>
 								<a href="{% url 'blog:tag-search' tag=tag %}">

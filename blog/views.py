@@ -1,6 +1,6 @@
-from django.views.generic import CreateView, ListView, DetailView, FormView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from blog import models
-from .mixins import PageTitleMixin, ImageOperations
+from .mixins import PageTitleMixin, ImageOperationMixin
 from django.http import HttpResponseRedirect
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
@@ -18,10 +18,21 @@ class PostCreateView(PageTitleMixin, CreateView):
 		return super(PostCreateView, self).form_valid(form)
 
 
+class PostUpdateView(PageTitleMixin, UpdateView):
+    fields = ('title', 'content', 'image', 'tags')
+    model = models.Post
+
+    def get_page_title(self):
+        obj = self.get_object()
+        return 'Update {}'.format(obj.name)
+
+    def get_success_url(self):
+        return reverse('blog:update', kwargs={'slug': self.kwargs['slug']})
+
+
 class SearchListView(ListView):
-	template_name = "search.html"
 	context_object_name = "search_items"
-	paginate_by = 1
+	paginate_by = 5
 
 	def get_queryset(self):
 		query = SearchQuery(self.request.GET.get('q'))
@@ -79,9 +90,8 @@ class PostDetailView(PageTitleMixin, DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(PostDetailView, self).get_context_data(**kwargs)
-		self.resolve_slug()
-
-		post_id = self.get_queryset().values_list('id', flat=True)[0]
+		queryset = self.get_queryset()
+		post_id = queryset.values_list('id', flat=True)[0]
 		
 		try:
 			context['post_next'] = models.Post.objects.filter(id__gt=post_id).order_by('created_at')[0:1].get()
@@ -92,13 +102,10 @@ class PostDetailView(PageTitleMixin, DetailView):
 		except models.Post.DoesNotExist:
 			context['post_prev'] = None
 
-		tags = [tt for t in self.get_queryset().values_list('tags') for tt in t]
+		tags = [tt for t in queryset.values_list('tags') for tt in t]
 		context['tag_list'] = ", ".join(tags).split(", ")
-		return context
 
-	def resolve_slug(self):
-		# Redirect if the slug does not match
-		slug_title = slugify(self.get_queryset().values_list('title', flat=True)[0])
-		if self.kwargs['slug_title'] != slug_title:
-			return HttpResponseRedirect(reverse('blog:detail',
-				kwargs={'slug': self.kwargs['slug'], 'slug_title': slug_title}))
+		image = queryset.values_list('image', flat=True)[:1]
+		enhanced_image = ImageOperationMixin().enhance("".join(image))
+		print (enhanced_image)
+		return context
