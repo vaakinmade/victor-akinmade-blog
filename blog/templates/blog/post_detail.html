@@ -2,6 +2,7 @@
 {% load static from staticfiles %}
 {% load humanize %}
 {% load custom_filters %}
+{% load js %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -29,7 +30,20 @@
 							</span>&nbsp;
 						{% endfor %}
 					</div>
-					<br/>
+					<ul class="post-meta margin-top-20" style="color: #fff; margin-bottom: -40px;">
+						<li><i class="sl sl-icon-clock"></i> {{ post.content|length|time_estimate }} minutes read</li>
+						<li><i class="sl sl-icon-eye"></i> {{ post.views|intcomma }} views</li>
+						<li>
+							<button class="likes post-likes" id="heart-icon" data-post-id="{{ post.id }}">
+								{% if liked %}
+								   <i class="heart-toggle fa fa-heart" data-post-id="{{post.id}}" style="display: line-block;"></i>
+								{% else %}
+									<i class="heart-toggle fa fa-heart-o" data-post-id="{{post.id}}" style="display: line-block;"></i>
+								{% endif %}
+							<div class="like_count_post likes" style="margin-left:0px;">{{ post.likes }}</div>
+							</button>
+						</li>
+					</ul>
 				</div>
 				<!-- Home Background Text / End -->
 			</div>
@@ -91,9 +105,26 @@
 </div>
 
 <script type="text/javascript">
-	window.onload = function(e){ 
-    document.getElementById('id_hits').value = {{post.hits}} + 1;
-}
+	/* like counting */
+	$(document).ready(function() {
+	    $('.post-likes').click(function() {
+	        var id;
+	        var status = {{liked|lower|js}};
+	        id = $(this).attr('data-post-id');
+	        $.get('/blog/like-post/', {
+	            post_id: id
+	        }, function(data) {
+	            $('.like_count_post').html(data["likes"])
+	            if (data["liked"]){
+	            	$('.heart-toggle').removeClass('fa-heart-o')
+	            	$('.heart-toggle').addClass('fa-heart')
+	        	}else{
+	        		$('.heart-toggle').removeClass('fa-heart')
+	        		$('.heart-toggle').addClass('fa-heart-o')
+	        	}
+	        });
+	    });
+	});
 </script>
 
 {% endblock %}

@@ -46,7 +46,6 @@
 						<h3><a href="{% url 'blog:detail' slug=post.slug slug_title=post.slug_title %}">{{ post.title}}</a></h3>
 						<ul class="post-meta margin-top-20 margin-bottom-10">
 							<li><i class="fa fa-calendar-check-o"></i> {{ post.created_at.date }}</li>
-							<li><i class="sl sl-icon-user"></i> {{ post.author.first_name }}</li>
 							<li><i class="sl sl-icon-clock"></i> {{ post.read_minutes }} minutes read</li>
 							<li><i class="sl sl-icon-eye"></i> {{ post.views|intcomma }} views</li>
 							<li><i class="sl sl-icon-heart"></i> {{ post.likes }}</li>
