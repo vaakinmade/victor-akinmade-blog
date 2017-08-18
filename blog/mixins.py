@@ -1,5 +1,6 @@
 from PIL import Image, ImageEnhance, ImageFilter
-from va_blog.settings import 
+from va_blog.settings import MEDIA_ROOT
+import os
 
 
 class PageTitleMixin:

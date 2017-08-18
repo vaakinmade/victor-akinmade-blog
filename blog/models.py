@@ -10,10 +10,9 @@ class Post(models.Model):
 	title = models.CharField(max_length=225)
 	author = models.ForeignKey(User)
 	content = models.TextField()
-	views = models.IntegerField(default=0)
-	tags = models.TextField()
+	views = models.PositiveIntegerField(default=0)
+	tags = models.CharField(max_length=225, default="")
 	visibility = models.BooleanField(default=False)
-	read_minutes = models.IntegerField(default=0)
 	likes = models.IntegerField(default=0)
 	image = models.ImageField(upload_to='images/blog', default='pic_folder/None/no-img.jpg')
 	slug = models.SlugField(
@@ -31,4 +30,8 @@ class Post(models.Model):
 
 	def slug_title(self):
 		return slugify(self.title)
+
+	@property
+	def total_likes(self):
+		return self.likes.count()
 

@@ -11,7 +11,7 @@ def time_estimate(word_count):
     '''Estimates the number of minutes it will take to complete a step
     based on the passed-in wordcount.
     '''
-    minutes = round(word_count/20)
+    minutes = round(word_count/450)
     return minutes
 
 

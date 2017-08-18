@@ -11,6 +11,7 @@
 
 <!-- CSS
 ================================================== -->
+<script type="text/javascript" src="{% static 'scripts/jquery-2.2.0.min.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/colors/purple.css' %}" id="colors">
 <link rel="stylesheet" href="{% static 'css/default.css' %}">
@@ -49,6 +50,7 @@
 					<li class="pull-right"><h4><a href="{% url 'blog:search' %}">
 						&nbsp;&nbsp;&nbsp;&nbsp;<i class="sl sl-icon-magnifier"></i></a></h4>
 					</li>
+					<li class="pull-right"><h4><a href="#">Reading</a></h4></li>
 					<li class="pull-right"><h4><a href="#">Blog</a></h4></li>
 					<li class="pull-right"><h4><a href="{% url 'about' %}">About</a></h4></li>
 				</ul>
@@ -89,7 +91,7 @@
 
 <!-- Scripts
 ================================================== -->
-<script type="text/javascript" src="{% static 'scripts/jquery-2.2.0.min.js' %}"></script>
+
 <script type="text/javascript" src="{% static 'scripts/chosen.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/magnific-popup.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/owl.carousel.min.js' %}"></script>
@@ -100,7 +102,6 @@
 <script type="text/javascript" src="{% static 'scripts/jquery.jpanelmenu.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/tooltips.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/custom.js' %}"></script>
-<script type="text/javascript" src="{% static 'scripts/helper.js' %}"></script>
 
 <!-- Maps -->
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>

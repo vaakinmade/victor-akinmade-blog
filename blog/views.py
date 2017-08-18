@@ -1,7 +1,7 @@
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, View
 from blog import models
 from .mixins import PageTitleMixin, ImageOperationMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
@@ -9,7 +9,7 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 class PostCreateView(PageTitleMixin, CreateView):
 	template_name = 'blog/post_form.html'
-	fields = ['title', 'content', 'image']
+	fields = ['title', 'content', 'image', 'tags']
 	model = models.Post	
 	page_title = "New Blog Entry"
 
@@ -32,13 +32,15 @@ class PostUpdateView(PageTitleMixin, UpdateView):
 
 class SearchListView(ListView):
 	context_object_name = "search_items"
+	template_name = "blog/search.html"
 	paginate_by = 5
 
 	def get_queryset(self):
 		query = SearchQuery(self.request.GET.get('q'))
-		vector = SearchVector('title', 'content')
-		rank_parameters = SearchRank(vector, query)
 		if query:
+			vector = SearchVector('title', 'content')
+			rank_parameters = SearchRank(vector, query)
+		
 			result = models.Post.objects.annotate(search=vector, rank=rank_parameters
 				).filter(search=query).order_by('-rank')
 			return result
@@ -82,6 +84,33 @@ class PostListView(PageTitleMixin, ListView):
 		return models.Post.objects.filter(visibility=True).order_by('-created_at')
 
 
+class PostLikeView(View):
+	def get(self, request, *args, **kwargs):
+		liked = False
+		if self.request.method == 'GET':
+		    post_id = self.request.GET['post_id']
+		    post = models.Post.objects.get(id=int(post_id))
+		    if self.request.session.get('has_liked_'+post_id, liked):
+		        print("unlike")
+		        if post.likes > 0:
+		            likes = post.likes - 1
+		            try:
+		                del self.request.session['has_liked_'+post_id]
+		            except KeyError:
+		                print("keyerror")
+		    else:
+		        liked = request.session['has_liked_'+post_id] = True
+		        likes = post.likes + 1
+		        print("like", likes)
+		post.likes = likes
+		post.save()
+		data = {}
+		data['likes'] = likes
+		data['liked'] = liked
+		data = JsonResponse(data)
+		return HttpResponse(data, content_type='application/json')
+
+
 class PostDetailView(PageTitleMixin, DetailView):
 	model = models.Post
 
@@ -102,10 +131,18 @@ class PostDetailView(PageTitleMixin, DetailView):
 		except models.Post.DoesNotExist:
 			context['post_prev'] = None
 
-		tags = [tt for t in queryset.values_list('tags') for tt in t]
+		tags = [t for t in queryset.values_list('tags', flat=True)]
 		context['tag_list'] = ", ".join(tags).split(", ")
 
 		image = queryset.values_list('image', flat=True)[:1]
 		enhanced_image = ImageOperationMixin().enhance("".join(image))
-		print (enhanced_image)
+		context['liked'] = self.get_liked()
 		return context
+
+	def get_liked(self):
+		queryset = self.get_queryset()
+		post_id = queryset.values_list('id', flat=True)[0]
+		liked = False
+		if self.request.session.get('has_liked_'+str(post_id), liked):
+		    liked = True
+		return liked
