@@ -27,6 +27,6 @@ class ImageOperationMixin:
             return img
         image_enhancer = ImageEnhance.Contrast(image)
         image_enhanced = image_enhancer.enhance(1.3)
-        #image_enhanced.show("30% More Contrast")
+        image_enhanced.show("30% More Contrast")
         image_enhanced.save(MEDIA_ROOT+'/'+img)
         return image_enhanced

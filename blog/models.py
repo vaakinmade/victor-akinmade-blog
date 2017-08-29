@@ -35,3 +35,12 @@ class Post(models.Model):
 	def total_likes(self):
 		return self.likes.count()
 
+
+class Mail(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True)
+	name = models.CharField(max_length=225)
+	email = models.CharField(max_length=50)
+	message = models.TextField()
+
+	def __str__(self):
+		return "Mail from " + self.name

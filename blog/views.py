@@ -105,8 +105,7 @@ class PostLikeView(View):
 		post.likes = likes
 		post.save()
 		data = {}
-		data['likes'] = likes
-		data['liked'] = liked
+		data['likes'], data['liked'] = likes, liked
 		data = JsonResponse(data)
 		return HttpResponse(data, content_type='application/json')
 
@@ -123,11 +122,11 @@ class PostDetailView(PageTitleMixin, DetailView):
 		post_id = queryset.values_list('id', flat=True)[0]
 		
 		try:
-			context['post_next'] = models.Post.objects.filter(id__gt=post_id).order_by('created_at')[0:1].get()
+			context['post_next'] = models.Post.objects.filter(id__gt=post_id, visibility=True).order_by('created_at')[0:1].get()
 		except models.Post.DoesNotExist:
 			context['post_next'] = None
 		try:
-			context['post_prev'] = models.Post.objects.filter(id__lt=post_id).order_by('-created_at')[0:1].get()
+			context['post_prev'] = models.Post.objects.filter(id__lt=post_id, visibility=True).order_by('-created_at')[0:1].get()
 		except models.Post.DoesNotExist:
 			context['post_prev'] = None
 
@@ -135,7 +134,7 @@ class PostDetailView(PageTitleMixin, DetailView):
 		context['tag_list'] = ", ".join(tags).split(", ")
 
 		image = queryset.values_list('image', flat=True)[:1]
-		enhanced_image = ImageOperationMixin().enhance("".join(image))
+		# enhanced_image = ImageOperationMixin().enhance("".join(image))
 		context['liked'] = self.get_liked()
 		return context
 
