@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.filter('time_estimate')
 def time_estimate(word_count):
-    '''Estimates the number of minutes it will take to complete a step
+    '''Estimates the number of minutes it will take to read a post
     based on the passed-in wordcount.
     '''
     minutes = round(word_count/450)

@@ -3,6 +3,7 @@ Django==1.11.3
 django-bootstrap3==9.0.0
 markdown2==2.3.4
 olefile==0.44
+pep8==1.7.0
 Pillow==4.2.1
 psycopg2==2.7.3
 Pygments==2.2.0

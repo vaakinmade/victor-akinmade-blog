@@ -41,7 +41,8 @@ class SearchListView(ListView):
 			vector = SearchVector('title', 'content')
 			rank_parameters = SearchRank(vector, query)
 		
-			result = models.Post.objects.annotate(search=vector, rank=rank_parameters
+			result = models.Post.objects.filter(visibility=True).annotate(
+				search=vector, rank=rank_parameters
 				).filter(search=query).order_by('-rank')
 			return result
 
@@ -65,23 +66,6 @@ class TagListView(PageTitleMixin, ListView):
 	def get_queryset(self):
 		return models.Post.objects.filter(tags__icontains=self.kwargs['tag'],
 			visibility=True).order_by('-created_at')
-
-
-class PostListView(PageTitleMixin, ListView):
-	context_object_name = "posts"
-
-	def get_context_data(self, **kwargs):
-		context = super(PostListView, self).get_context_data(**kwargs)
-		post_images = models.Post.objects.all()
-		obj = ImageOperations()
-
-		for post in post_images:
-			obj.process_ratio(post.image)
-		
-		return context
-
-	def get_queryset(self):
-		return models.Post.objects.filter(visibility=True).order_by('-created_at')
 
 
 class PostLikeView(View):
