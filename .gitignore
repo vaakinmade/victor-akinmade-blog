@@ -3,7 +3,7 @@
 
 # Ignore uploaded image files
 /media/*
-/assets/*
+#/assets/*
 
 
 # Ignore swap files and pycs
