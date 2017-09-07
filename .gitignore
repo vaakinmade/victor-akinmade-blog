@@ -3,10 +3,9 @@
 
 # Ignore uploaded image files
 /media/*
-/assets/*
-#/assets/css/*
-#/assets/fonts/*
-#/assets/scripts/*
+/assets/css/*
+/assets/fonts/*
+/assets/scripts/*
 
 
 # Ignore swap files and pycs
