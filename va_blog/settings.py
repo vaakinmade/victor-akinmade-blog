@@ -99,6 +99,14 @@ else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
 
+    STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
+    STATIC_ROOT = 'staticfiles'
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
+
+    MEDIA_URL = os.environ.get('MEDIA_URL', MEDIA_URL)
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -154,16 +162,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-STATIC_URL = os.environ.get('STATIC_URL', STATIC_URL)
-STATIC_ROOT = 'staticfiles'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
-
-MEDIA_URL = os.environ.get('MEDIA_URL', MEDIA_URL)
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")

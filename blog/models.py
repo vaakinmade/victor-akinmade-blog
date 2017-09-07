@@ -6,7 +6,7 @@ from django.utils.crypto import get_random_string
 
 
 class Post(models.Model):
-	created_at = models.DateTimeField(auto_now_add=True)
+	created_at = models.DateTimeField(auto_now_add=False)
 	title = models.CharField(max_length=225)
 	author = models.ForeignKey(User)
 	content = models.TextField()

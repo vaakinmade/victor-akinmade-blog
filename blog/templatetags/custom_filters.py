@@ -1,10 +1,16 @@
 from django import template
 from django.utils.safestring import mark_safe
-
+from dateutil.relativedelta import relativedelta
+import datetime
 import markdown2
 
 
-register = template.Library() 
+register = template.Library()
+
+@register.filter('date_format')
+def date_format(date):
+	years_ago = datetime.datetime.now() - relativedelta(years=5)
+	return years_ago
 
 @register.filter('time_estimate')
 def time_estimate(word_count):
