@@ -3,10 +3,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
+from datetime import datetime
 
 
 class Post(models.Model):
-	created_at = models.DateTimeField(auto_now_add=False)
+	created_at = models.DateTimeField(default=datetime.now())
 	title = models.CharField(max_length=225)
 	author = models.ForeignKey(User)
 	content = models.TextField()

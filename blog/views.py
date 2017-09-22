@@ -9,7 +9,7 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 class PostCreateView(PageTitleMixin, CreateView):
 	template_name = 'blog/post_form.html'
-	fields = ['title', 'content', 'image', 'tags']
+	fields = ['title', 'content', 'image', 'tags', 'created_at']
 	model = models.Post	
 	page_title = "New Blog Entry"
 
@@ -103,14 +103,16 @@ class PostDetailView(PageTitleMixin, DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(PostDetailView, self).get_context_data(**kwargs)
 		queryset = self.get_queryset()
-		post_id = queryset.values_list('id', flat=True)[0]
+		created_at = queryset.values_list('created_at', flat=True)[0]
 		
 		try:
-			context['post_next'] = models.Post.objects.filter(id__gt=post_id, visibility=True).order_by('created_at')[0:1].get()
+			context['post_next'] = models.Post.objects.filter(created_at__gt=created_at,
+				visibility=True).order_by('created_at')[0:1].get()
 		except models.Post.DoesNotExist:
 			context['post_next'] = None
 		try:
-			context['post_prev'] = models.Post.objects.filter(id__lt=post_id, visibility=True).order_by('-created_at')[0:1].get()
+			context['post_prev'] = models.Post.objects.filter(created_at__lt=created_at,
+				visibility=True).order_by('-created_at')[0:1].get()
 		except models.Post.DoesNotExist:
 			context['post_prev'] = None
 
