@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from hitcount.views import HitCountDetailView
 
 
 class PostCreateView(PageTitleMixin, CreateView):
@@ -94,14 +95,14 @@ class PostLikeView(View):
 		return HttpResponse(data, content_type='application/json')
 
 
-class PostDetailView(PageTitleMixin, DetailView):
+class  PostMixinDetailView(object):
 	model = models.Post
 
 	def get_queryset(self):
 		return models.Post.objects.filter(slug=self.kwargs['slug'])
 
 	def get_context_data(self, **kwargs):
-		context = super(PostDetailView, self).get_context_data(**kwargs)
+		context = super(PostMixinDetailView, self).get_context_data(**kwargs)
 		queryset = self.get_queryset()
 		created_at = queryset.values_list('created_at', flat=True)[0]
 		
@@ -131,3 +132,11 @@ class PostDetailView(PageTitleMixin, DetailView):
 		if self.request.session.get('has_liked_'+str(post_id), liked):
 		    liked = True
 		return liked
+
+
+class PostDetailView(PostMixinDetailView, HitCountDetailView):
+    """
+    Generic hitcount class based view.
+    """
+    count_hit = True 
+   
