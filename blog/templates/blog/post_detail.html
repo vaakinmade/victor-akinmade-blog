@@ -34,7 +34,7 @@
 					</div>
 					<ul class="post-meta margin-top-20" style="color: #fff; margin-bottom: -40px;">
 						<li><i class="sl sl-icon-clock"></i> {{ post.content|length|time_estimate }} minutes read</li>
-						<li><i class="sl sl-icon-eye"></i>{{ hitcount.total_hits|add_int:post.views|intcomma }} views</li>
+						<li><i class="sl sl-icon-eye"></i> {{ hitcount.total_hits|add_int:post.views|intcomma }} views</li>
 						<li>
 							<button class="likes post-likes" id="heart-icon" data-post-id="{{ post.id }}">
 								{% if liked %}
