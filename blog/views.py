@@ -138,5 +138,5 @@ class PostDetailView(PostMixinDetailView, HitCountDetailView):
     """
     Generic hitcount class based view.
     """
-    count_hit = True 
+    count_hit = True
    
