@@ -3,6 +3,7 @@
 {% load humanize %}
 {% load bootstrap3 %}
 {% load custom_filters %}
+{% load hitcount_tags %}
 
 {% block title %} Python, Django &amp; the in-betweens {% endblock %}
 
@@ -53,7 +54,6 @@
 						<li><i class="fa fa-calendar-check-o"></i> {{ post.created_at.date }}</li>
 						<li><i class="sl sl-icon-user"></i> {{ post.author.first_name }}</li>
 						<li><i class="sl sl-icon-clock"></i> {{ post.content|length|time_estimate }} minutes read</li>
-						<li><i class="sl sl-icon-eye"></i> {{ post.views|intcomma }} views</li>
 						<li><i class="sl sl-icon-heart"></i> {{ post.likes }}</li>
 					</ul>
 				</div>
