@@ -26,3 +26,11 @@ def markdown_to_html(markdown_text):
     '''Converts markdown text to HTML'''
     html_body = markdown2.markdown(markdown_text, extras=["fenced-code-blocks",])
     return mark_safe(html_body)
+
+
+@register.filter('add_int')
+def add_int(x, y):
+    """
+    Adds the x and y and returns as floating points
+    """
+    return int(x) + int(y)
