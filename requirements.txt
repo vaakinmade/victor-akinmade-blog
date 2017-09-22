@@ -3,6 +3,7 @@ botocore==1.7.4
 dj-database-url==0.4.2
 Django==1.11.3
 django-bootstrap3==9.0.0
+django-hitcount==1.2.2
 django-storages==1.6.5
 docutils==0.14
 jmespath==0.9.3
