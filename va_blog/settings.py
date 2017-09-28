@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'hitcount',
     'bootstrap3',
     'blog',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -171,3 +173,14 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 1 }
 HITCOUNT_HITS_PER_IP_LIMIT = 0  # unlimited
+
+# django toolbar
+def show_toolbar(request):
+    if request.user and request.user.username == "vaakinmade":
+        return True
+    return False
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'va_blog.settings.show_toolbar',
+
+}
