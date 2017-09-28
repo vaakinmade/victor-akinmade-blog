@@ -19,8 +19,11 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+import debug_toolbar
+
 
 urlpatterns = [
+  url(r'^__debug__/', include(debug_toolbar.urls)),
   url(r'^admin/', admin.site.urls),
   url(r'^blog/', include("blog.urls", namespace="blog")),
   url(r'^$', views.HomeView.as_view(), name='home'),
