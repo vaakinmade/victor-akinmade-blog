@@ -3,6 +3,7 @@ botocore==1.7.4
 dj-database-url==0.4.2
 Django==1.11.3
 django-bootstrap3==9.0.0
+django-debug-toolbar==1.8
 django-hitcount==1.2.2
 django-storages==1.6.5
 docutils==0.14
@@ -18,4 +19,5 @@ python-decouple==3.0
 pytz==2017.2
 s3transfer==0.1.11
 six==1.10.0
+sqlparse==0.2.4
 virtualenv==15.1.0
