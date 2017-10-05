@@ -24,7 +24,7 @@ class Post(models.Model):
 
 
 	def __str__(self):
-		return "Post by " + self.author.username
+		return "{} by {}".format(self.title, self.author.username)
 
 	def get_absolute_url(self):
    	    return reverse('home')
