@@ -34,7 +34,7 @@ class SuggestionFormView(FormView):
 
 def get_popular_posts():
 	return models.Post.objects.filter(visibility=True).order_by('-views')[:2]
-
+	
 
 class AboutView(SuggestionFormView, TemplateView):
 	template_name = 'about.html'
@@ -51,7 +51,7 @@ class HomeView(ListView):
 	paginate_by = 1
 
 	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
+		context = super(HomeView, self).get_context_data(**kwargs)
 		context['popular'] = get_popular_posts()
 		return context
 
