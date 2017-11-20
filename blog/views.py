@@ -6,6 +6,8 @@ from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from hitcount.views import HitCountDetailView
+import functools
+import operator
 
 
 class PostCreateView(PageTitleMixin, CreateView):
@@ -37,8 +39,10 @@ class SearchListView(ListView):
 	paginate_by = 5
 
 	def get_queryset(self):
-		query = SearchQuery(self.request.GET.get('q'))
-		if query:
+		search = self.request.GET.get('q')
+		terms = [SearchQuery(term) for term in search.split()]
+		if search:			
+			query = functools.reduce(operator.or_, terms)
 			vector = SearchVector('title', 'content')
 			rank_parameters = SearchRank(vector, query)
 		
