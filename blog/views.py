@@ -40,16 +40,18 @@ class SearchListView(ListView):
 
 	def get_queryset(self):
 		search = self.request.GET.get('q')
-		terms = [SearchQuery(term) for term in search.split()]
-		if search:			
+		if search:
+			terms = [SearchQuery(term) for term in search.split()]
 			query = functools.reduce(operator.or_, terms)
-			vector = SearchVector('title', 'content')
+
+			vector = SearchVector('title', 'content')			
 			rank_parameters = SearchRank(vector, query)
 		
 			result = models.Post.objects.filter(visibility=True).annotate(
 				search=vector, rank=rank_parameters
 				).filter(search=query).order_by('-rank')
 			return result
+		return []
 
 	def get_context_data(self, **kwargs):
 		context = super(SearchListView, self).get_context_data(**kwargs)
